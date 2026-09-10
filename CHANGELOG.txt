@@ -1,0 +1,75 @@
+タスク管理ンナー CHANGELOG
+=========================
+
+v1.1.1  (2026-08-21)
+- localStorageへの即時保存を維持したまま、端末ごとに明示的にONにする自動同期を追加
+- 1.8秒デバウンス、直列アップロード、同一内容の送信省略を追加
+- revisionの楽観的ロックと「他端末の更新あり」競合停止を追加
+- 起動・再表示・focus・45秒間隔でrevisionだけを確認し、安全な場合のみ自動取得
+- 画面位置、選択状態、settings、recentを端末ローカルとして同期対象外に変更
+- 同期状態、revision、同期JSONサイズと3MB以上の警告表示を追加
+- 手動保存・手動取得・取得前JSONバックアップを維持
+- Realtime、競合の自動マージ、画像のStorage移行は未実装
+- localStorageキー taskKanrinnerV1 と schema 10 を維持
+
+v1.1.0  (2026-08-21)
+- Supabase JS v2によるメールアドレス・パスワード認証を追加
+- public.app_stateを使う手動のクラウド保存・取得を追加
+- クラウド取得前のローカルJSONバックアップと上書き確認を追加
+- revisionによる保存時の同時更新検出を追加
+- 自動同期、Realtime、競合の自動マージ、画像のStorage移行は未実装
+- localStorageキー taskKanrinnerV1 と schema 10 を維持
+
+v1.0  (2026-08-20)
+- ローカル版の完成リリース
+- v8.9.3の機能を固定
+- PWAキャッシュをv1.0へ更新
+- CSSをstyle.css 1本の構成として確定
+- README / 文言変更テンプレを現行仕様へ整理
+- localStorageキー taskKanrinnerV1 と schema 10 を維持
+
+主な完成までの流れ
+- v8系: ボード、自由帳、目標、DOPAテーマを拡張
+- v8.5: ルーティンタスク追加
+- v8.6-v8.8: DOPA背景、実績カレンダー、モーダル、可読性と文言調整
+- v8.9: ナビを左/右/上/下へ移動可能に
+- v8.9.1-v8.9.3: ＋ボタン配置、横ドック、長いタブ/ボード一覧を調整
+
+v1.0.1
+- iOS/Safari browser-bar-safe mobile sidebar scrolling.
+- Mobile menu/close button no longer overlaps the brand text.
+- DOPA delete/complete/restore feedback remains readable longer.
+- Mobile Builder FX reduces only secondary particles/streaks for smoother animation.
+- BLOCK BREAK remains 1 block; GOAL CLEAR remains 42 blocks.
+
+v1.0.2
+- Reduced floating + icon size for better balance with surrounding UI text.
+- Reduced sidebar add-button + size slightly.
+- Black theme visual cleanup: removed residual glowy text/fx feel and restored a cleaner dark appearance.
+- Updated PWA cache version.
+
+v1.0.3
+- Mobile tab/menu button stays fixed in one screen position whether the sidebar is open or closed.
+- Sidebar brand row reserves space for the fixed menu button.
+- DOPA mode keeps the fixed button below the dedication strip.
+- Updated PWA cache version.
+
+v1.0.4
+- Mobile menu button moved into a dedicated viewport-fixed control layer.
+- The menu button now stays on screen while scrolling any tab/page.
+- DOPA keeps the same fixed behavior while avoiding the dedication strip.
+- Updated PWA cache version.
+
+v1.0.5
+- Closed mobile state: hamburger stays fixed at the viewport top-left while scrolling.
+- Open mobile state: close button moves just outside the drawer on the right.
+- Closing the drawer returns the control to the top-left.
+- DOPA positioning continues to avoid the dedication strip.
+- Updated PWA cache version.
+
+v1.0.6
+- Mobile sidebar close button and Settings modal close button are now treated separately.
+- Opening Settings hides the sidebar × temporarily.
+- Closing Settings restores the sidebar × in its previous right-side position.
+- Settings modal is explicitly layered above mobile navigation controls.
+- Updated PWA cache version.

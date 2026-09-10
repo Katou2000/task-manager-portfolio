@@ -1,0 +1,113 @@
+タスク管理ンナー v1.1.1
+====================
+
+ローカル保存を正式な保存先として維持しながら、Supabaseへの安全優先の自動同期を追加したリリースです。
+
+■ 重要
+- 保存キーは従来どおり `taskKanrinnerV1`。既存データをそのまま引き継ぎます。
+- データはブラウザの localStorage に保存されます。
+- 自動同期は端末ごとに初期OFFです。ログイン後、設定画面で明示的にONにした端末だけ自動同期します。
+- 従来の「手動：クラウドへ保存」「手動：クラウドから取得」も利用できます。
+- 既存画像と未ログイン時の新規画像はBase64互換を維持します。ログイン中の新規画像は、upload成功時にprivate Supabase Storageへ保存します。
+- 更新前に一度バックアップJSONを保存しておくのを推奨します。
+
+■ 主な機能
+- 複数ボード / セクション / タスクカード
+- 開始日・期限・タグ・検索・フィルター・並び替え
+- 繰り返しタスク
+- 今日やること / カレンダー / ホーム
+- ルーティンタスク + 月間実績カレンダー
+- 完了履歴 / ゴミ箱 / 復元
+- よく使う（ピン留め）
+- ボード / 目標テンプレート
+- 自由帳（PC自由配置 / スマホ5列表示）
+- メモ
+- 目標設計（DOPAではブロックビルドブレイカー）
+- 達成した目標
+- Simple / Black / DOPA-BOYテーマ
+- 文字サイズ 小・中・大
+- タブの表示/非表示・並べ替え・左/右/上/下配置
+- クイック＋ボタンの表示/非表示・自動/四隅配置
+- JSONバックアップ / 読み込み
+- Supabase自動／手動同期（メールアドレス・パスワード認証、revision競合保護）
+- PWA対応
+
+■ Supabase同期の設定
+1. `supabase-config.js` を開く
+2. `projectUrl` にProject URLを設定
+3. `publishableKey` にPublishable keyを設定
+4. アプリの設定 → クラウド同期から新規登録またはログイン
+5. 自動同期を使う端末では「自動同期」をON
+
+Secret key / service_role keyはブラウザ用ファイルへ設定しないでください。
+自動同期は1.8秒のデバウンスとrevision条件付き更新で直列実行されます。Realtimeと競合の自動マージは行いません。
+他端末とローカルの両方に変更がある場合は自動同期を停止し、手動保存か手動取得で解決します。
+「クラウドから取得」では、適用前に現在のローカルデータをJSONバックアップできます。
+
+■ 同期されない端末ローカル情報
+- 現在の画面、選択中のボード・目標・自由帳・メモ・ルーティン
+- カード等の一時的なselected状態
+- settings（テーマ、配色、文字サイズ、ナビ配置・表示など）
+- recent（閲覧によって更新される最近の履歴）
+
+クラウド取得時も、これらは取得前の端末側の値を維持します。
+既存Base64画像は従来どおりJSONへ含まれます。Storage画像はbucket/path参照だけをJSONへ含め、表示時に署名URLを生成します。JSONバックアップだけではStorage画像本体を復元できません。設定画面に同期JSONサイズを表示し、3MB以上では警告します。
+
+■ v1.0で整理したもの
+- CSSは `style.css` 1本を正式なスタイルファイルとして使用
+- Service Workerキャッシュを `task-kanrinner-v1-0` に更新
+- 古い文言テンプレを整理し、v1.0用の1ファイルに統一
+- READMEを現行仕様へ更新
+- 内部の旧名 `ensureV7` を `ensureCurrentData` へ整理（保存形式は変更なし）
+
+■ GitHub Pagesへ更新するとき
+1. このZIPを展開
+2. リポジトリ内の同名ファイルをv1.0側で置き換える
+3. VS Code / Live Serverで一度確認
+4. Gitで反映
+
+    git add .
+    git commit -m "release v1.0"
+    git push
+
+5. GitHub Pages反映後、古い表示が残る場合は Ctrl + Shift + R
+
+■ データバックアップ
+設定 → 保存 → 「バックアップ保存」
+読み戻す場合は「読み込み」からJSONを選択します。
+
+クラウド同期後も `taskKanrinnerV1` が正式なローカル保存です。
+
+■ v1.0で維持している重要仕様
+- localStorageキー: taskKanrinnerV1
+- BLOCK BREAK: 1ブロック
+- GOAL CLEAR: 42ブロック
+- 自由帳: PC自由配置 / スマホ5列
+- スマホのナビ: 左ドロワー
+- PCのナビ初期位置: 左
+
+[1.0.1 smartphone polish]
+- Sidebar can scroll above Safari's bottom browser bar.
+- Mobile menu button moves outside the open drawer.
+- DOPA action feedback is slower on mobile for readability.
+- Builder mobile rendering is lighter while keeping BLOCK=1 / GOAL=42.
+
+[1.0.2 visual polish]
+- The floating plus button is intentionally a little smaller so it matches nearby UI text better.
+- Black theme now uses cleaner dark surfaces with much less glow.
+
+[1.0.3 mobile navigation polish]
+- The mobile tab/menu button is fixed like the floating + button.
+- Opening the drawer no longer moves the control.
+
+[1.0.4 mobile fixed control]
+- The hamburger/close button now lives in a dedicated fixed overlay, independent from tab content scrolling.
+
+[1.0.5 mobile menu button]
+- Closed: fixed hamburger at screen top-left.
+- Open: fixed close button just outside the drawer on the right.
+
+[1.0.6 mobile close controls]
+- Sidebar open: sidebar × is shown to the right of the drawer.
+- Settings open: only the Settings modal × is shown.
+- Closing Settings restores the sidebar ×.
