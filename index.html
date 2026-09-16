@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>タスク管理ンナー</title>
+  <meta name="description" content="表示や配置を利用者に合わせて調整できる、タスク・予定・ルーティン・目標の管理Webアプリ。">
+  <title>TaskTune</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2563eb">
-  <meta name="application-name" content="タスク管理ンナー">
+  <meta name="application-name" content="TaskTune">
+  <link rel="icon" href="icon-192.png">
   <link rel="apple-touch-icon" href="icon-192.png">
 </head>
 <body data-theme="simple" data-density="normal" data-dopa-motion="on" data-nav-position="left" data-quick-fab-position="bottom-right">
@@ -46,13 +48,13 @@
     <aside class="sidebar">
       <div class="brand-row">
         <div>
-          <h1>タスク管理ンナー</h1>
-          <p id="brandSubtitle">やること整理ンワー</p>
+          <h1>TaskTune</h1>
+          <p id="brandSubtitle">自分仕様のタスク管理</p>
         </div>
         <button id="settingsButton" class="icon-button" aria-label="設定">⚙</button>
       </div>
 
-      <div id="sidebarEditHint" class="sidebar-edit-hint hidden">↕ タブ編集モード：ドラッグで順番変更</div>
+      <div id="sidebarEditHint" class="sidebar-edit-hint hidden">↕ メニュー編集モード：ドラッグで順番変更</div>
 
       <nav id="mainNav" class="main-nav">
         <button id="todayTasksButton" class="nav-button hidden" data-nav-key="todayTasks" aria-hidden="true" tabindex="-1">☀ 今日やること</button>
@@ -70,14 +72,14 @@
         <button id="trashButton" class="nav-button" data-nav-key="trash">🗑 ゴミ箱</button>
       </nav>
       <details id="hiddenNavDrawer" class="hidden-nav-drawer hidden">
-        <summary>隠したタブ <span id="hiddenNavCount">0</span></summary>
+        <summary>隠したメニュー <span id="hiddenNavCount">0</span></summary>
         <nav id="hiddenNavList" class="hidden-nav-list"></nav>
       </details>
     </aside>
 
     <main class="main-content">
       <div class="utility-bar" aria-label="ユーティリティ">
-        <button id="appBackButton" class="app-back-button hidden" type="button" aria-label="直前の画面に戻る">← 一個戻る</button>
+        <button id="appBackButton" class="app-back-button hidden" type="button" aria-label="前の画面へ戻る">← 前の画面へ</button>
         <span class="utility-spacer"></span>
         <button id="undoButton" class="utility-icon-button history-button" type="button" aria-label="元に戻す" title="元に戻す（Ctrl+Z）" disabled>↶</button>
         <button id="redoButton" class="utility-icon-button history-button" type="button" aria-label="やり直す" title="やり直す（Ctrl+Y）" disabled>↷</button>
@@ -209,7 +211,7 @@
         </div>
         <div class="home-dashboard-grid">
           <section class="panel now-tasks-panel">
-            <div class="panel-heading now-tasks-heading"><div><h3>今やること</h3><p>期間中のタスクと、指定日にやるタスクをまとめて確認。</p></div><div class="header-actions"><button id="addPeriodTaskButton" class="secondary-button" type="button">＋ 期間中やる</button><button id="addPlannedTaskButton" class="primary-button" type="button">＋ この日にやる</button></div></div>
+            <div class="panel-heading now-tasks-heading"><div><h3>今やること</h3><p>期間内に実行するタスクと、指定日にやるタスクをまとめて確認。</p></div><div class="header-actions"><button id="addPeriodTaskButton" class="secondary-button" type="button">＋ 期間内に実行</button><button id="addPlannedTaskButton" class="primary-button" type="button">＋ この日にやる</button></div></div>
             <div class="home-progress-head"><div><span>今日の進捗</span><strong id="homeProgressText">0 / 0</strong></div><strong id="homeProgressPercent">0%</strong></div>
             <div class="linear-progress"><div id="homeProgressFill" class="linear-progress-fill"></div></div>
             <section class="home-quick-task-section" aria-labelledby="homeQuickTaskHeading">
@@ -243,17 +245,17 @@
 
       <section id="templatesView" class="view hidden">
         <header class="page-header">
-          <div><p class="eyebrow">TEMPLATES</p><h2>テンプレート</h2><p id="templatesHelp" class="page-helper">よく使うボード構成やブロックの型を使い回す。</p></div>
+          <div><p class="eyebrow">TEMPLATES</p><h2>テンプレート</h2><p id="templatesHelp" class="page-helper">よく使うボード構成やステップを再利用できます。</p></div>
         </header>
         <div class="template-two-column">
           <section class="panel">
             <div class="panel-heading"><h3>📁 ボードテンプレート</h3><span id="boardTemplateCount" class="count-badge">0</span></div>
-            <p class="setting-note">小項目・カード内容・色・タグを保存。使う時は期限を空にして新規ボードとして作成します。</p>
+            <p class="setting-note">セクション・カード内容・色・タグを保存。使う時は期限を空にして新規ボードとして作成します。</p>
             <div id="boardTemplateList" class="template-list"></div>
           </section>
           <section class="panel">
             <div class="panel-heading"><h3 id="goalTemplateHeading">🧭 目標テンプレート</h3><span id="goalTemplateCount" class="count-badge">0</span></div>
-            <p class="setting-note">ブロックの並びを型として保存。使用時は全ブロック未破壊で作成します。</p>
+            <p id="goalTemplateNote" class="setting-note">ステップの並びをテンプレートとして保存。使用時は、すべて未完了の状態で作成します。</p>
             <div id="goalTemplateList" class="template-list"></div>
           </section>
         </div>
@@ -289,8 +291,8 @@
               <summary class="secondary-button" aria-label="ボードのその他の操作">…</summary>
               <div class="board-actions-menu-panel">
                 <button id="pinBoardButton" class="secondary-button">☆ ボードをピン</button>
-                <button id="saveBoardTemplateButton" class="secondary-button">🧩 型を保存</button>
-                <button id="addSectionButton" class="secondary-button">＋ 小項目</button>
+                <button id="saveBoardTemplateButton" class="secondary-button">🧩 テンプレートとして保存</button>
+                <button id="addSectionButton" class="secondary-button">＋ セクション</button>
                 <button id="deleteBoardButton" class="danger-outline-button">削除</button>
               </div>
             </details>
@@ -303,7 +305,7 @@
             <button id="boardSearchCloseButton" class="secondary-button board-search-close" type="button" aria-label="検索を閉じる">×</button>
           </div>
           <select id="tagFilter"><option value="">すべてのタグ</option></select>
-          <select id="statusFilter"><option value="all">すべて</option><option value="open">未選択</option><option value="selected">選択中</option><option value="overdue">期限切れ</option><option value="pinned">ピン留め</option></select>
+          <select id="statusFilter"><option value="all">すべて</option><option value="open">未チェック</option><option value="selected">完了待ち</option><option value="overdue">期限切れ</option><option value="pinned">ピン留め</option></select>
           <select id="sortSelect"><option value="manual">手動順</option><option value="dueAsc">期限が近い順</option><option value="dueDesc">期限が遠い順</option><option value="createdDesc">新しい順</option><option value="createdAsc">古い順</option></select>
         </form>
         <div id="selectionBar" class="selection-bar hidden"><span id="selectionCountText">0件選択中</span><button id="clearSelectionButton" class="secondary-button">選択解除</button><button id="completeSelectedBarButton" class="success-button">完了にする</button></div>
@@ -312,7 +314,7 @@
       </section>
 
       <section id="archiveView" class="view hidden">
-        <header class="page-header"><div><p class="eyebrow">COMPLETED</p><h2>完了したこと</h2><p id="archiveHelper" class="page-helper">日々の小さい完了タスクも振り返れます。</p></div></header>
+        <header class="page-header"><div><p class="eyebrow">COMPLETED</p><h2>完了したこと</h2><p id="archiveHelper" class="page-helper">完了したタスクを日付やタグで振り返れます。</p></div></header>
         <div class="achievement-summary-grid archive-summary-grid">
           <article class="summary-card"><span>累計完了</span><strong id="archiveTotalCount">0</strong></article>
           <article class="summary-card"><span>今月</span><strong id="archiveMonthCount">0</strong></article>
@@ -320,7 +322,7 @@
           <article class="summary-card"><span>タグ種類</span><strong id="archiveTagCount">0</strong></article>
         </div>
         <section class="panel archive-tag-panel">
-          <div class="panel-heading"><h3>🏷 タグ別完了ファイル</h3><button id="clearArchiveTagButton" class="text-button">絞り込み解除</button></div>
+          <div class="panel-heading"><h3>🏷 タグ別の完了タスク</h3><button id="clearArchiveTagButton" class="text-button">絞り込み解除</button></div>
           <div id="archiveTagFiles" class="archive-tag-files"></div>
         </section>
         <form class="toolbar archive-toolbar app-search-form" role="search" aria-label="完了タスク検索" autocomplete="off">
@@ -343,7 +345,7 @@
             <button id="renameFreePageButton" class="secondary-button">ページ名変更</button>
             <button id="addFreeNoteButton" class="primary-button">＋ 付箋</button>
             <label class="secondary-button file-label">＋ 画像<input id="freeImageInput" type="file" accept="image/*"></label>
-            <button id="clearFreeboardButton" class="danger-outline-button">全消去</button>
+            <button id="clearFreeboardButton" class="danger-outline-button">このページの内容を削除</button>
           </div>
         </header>
         <div id="freePageTabs" class="free-page-tabs"></div>
@@ -375,27 +377,27 @@
             <div id="builderActive">
               <div class="builder-stage-head">
                 <div><h3 id="builderGoalTitle">目標</h3><p id="builderGoalMeta" class="goal-meta"></p></div>
-                <div class="header-actions"><button id="pinGoalButton" class="secondary-button">☆ ピン留め</button><button id="saveGoalTemplateButton" class="secondary-button">🧩 型を保存</button><button id="editGoalButton" class="secondary-button">目標を編集</button><button id="deleteGoalButton" class="danger-outline-button">削除</button></div>
+                <div class="header-actions"><button id="pinGoalButton" class="secondary-button">☆ ピン留め</button><button id="saveGoalTemplateButton" class="secondary-button">🧩 テンプレートとして保存</button><button id="editGoalButton" class="secondary-button">目標を編集</button><button id="deleteGoalButton" class="danger-outline-button">削除</button></div>
               </div>
-              <div class="breaker-progress-area"><div class="breaker-score"><span id="builderProgressLabel">0 / 0 ブロック</span><strong id="builderProgressPercent">0%</strong></div><div class="linear-progress breaker-progress"><div id="builderProgressFill" class="linear-progress-fill"></div></div></div>
-              <div class="block-create-row"><input id="blockTitleInput" placeholder="必要なブロックを追加"><button id="addBlockButton" class="primary-button">＋ ブロック</button></div>
-              <p class="builder-drag-help">ブロックはドラッグで並び替えできます。</p>
+              <div class="breaker-progress-area"><div class="breaker-score"><span id="builderProgressLabel">0 / 0 ステップ</span><strong id="builderProgressPercent">0%</strong></div><div class="linear-progress breaker-progress"><div id="builderProgressFill" class="linear-progress-fill"></div></div></div>
+              <div class="block-create-row"><input id="blockTitleInput" placeholder="達成ステップを追加"><button id="addBlockButton" class="primary-button">＋ ステップ</button></div>
+              <p id="builderDragHelp" class="builder-drag-help">ステップはドラッグで並び替えできます。</p>
               <div id="builderBlockList" class="builder-block-list"></div>
-              <button id="completeGoalButton" class="goal-complete-button" disabled>🏆 この目標を達成にする</button>
+              <button id="completeGoalButton" class="goal-complete-button" disabled>🏆 目標を達成済みにする</button>
             </div>
           </section>
         </div>
       </section>
 
       <section id="achievedGoalsView" class="view hidden">
-        <header class="page-header"><div><p class="eyebrow">ACHIEVEMENTS</p><h2>達成した目標</h2><p id="achievedHelp" class="page-helper">達成した目標をアチーブメント化。</p></div></header>
+        <header class="page-header"><div><p class="eyebrow">ACHIEVEMENTS</p><h2>達成した目標</h2><p id="achievedHelp" class="page-helper">達成した目標を記録し、あとから振り返れます。</p></div></header>
         <div class="achievement-summary-grid"><article class="summary-card"><span>達成した目標</span><strong id="achievedGoalCount">0</strong></article><article class="summary-card"><span>今月の達成</span><strong id="achievedGoalMonthCount">0</strong></article></div>
         <div id="achievedGoalList" class="achieved-goal-list"></div>
       </section>
 
       <section id="trashView" class="view hidden">
         <header class="page-header">
-          <div><p class="eyebrow">TRASH</p><h2>ゴミ箱</h2><p id="trashHelp" class="page-helper">消したものを一旦ここへ。必要なら戻せます。</p></div>
+          <div><p class="eyebrow">TRASH</p><h2>ゴミ箱</h2><p id="trashHelp" class="page-helper">削除した項目を一時保管します。必要に応じて復元できます。</p></div>
           <div class="header-actions"><button id="emptyTrashButton" class="danger-outline-button">ゴミ箱を空にする</button></div>
         </header>
         <div class="toolbar"><select id="trashKindFilter"><option value="">すべて</option><option value="card">カード</option><option value="board">ボード</option><option value="memo">メモ</option><option value="routine">ルーティンタスク</option><option value="freeItem">自由帳</option><option value="goal">目標</option><option value="archive">完了記録</option><option value="achievedGoal">達成目標</option></select></div>
@@ -407,7 +409,7 @@
   <button id="quickAddFab" class="quick-add-fab" aria-label="クイック追加">＋</button>
   <div id="quickAddMenu" class="quick-add-menu hidden"><button data-quick-action="task">✅ 通常タスク</button><button data-quick-action="light">☑ 軽量タスク</button><button data-quick-action="routine">🔁 ルーティンタスク</button><button data-quick-action="memo">📝 メモ</button><button data-quick-action="free">🗒 付箋</button><button data-quick-action="goal">🧱 目標</button><button data-quick-action="template">🧩 テンプレート</button></div>
 
-  <div id="syncCompact" class="sync-compact">
+  <div id="syncCompact" class="sync-compact hidden" aria-hidden="true">
     <button id="syncCompactButton" class="sync-compact-button" type="button" aria-expanded="false" aria-controls="syncCompactDetail">
       <span id="syncCompactIcon" aria-hidden="true">☁–</span><span id="syncCompactLabel">未ログイン</span>
     </button>
@@ -464,14 +466,14 @@
     <div class="form-grid">
       <label>種類<select id="cardTypeInput"><option value="task">タスク</option><option value="memo">メモ</option><option value="idea">アイデア</option><option value="link">リンク</option><option value="image">画像</option></select></label>
       <label>ボード<select id="cardBoardInput"></select></label>
-      <label>小項目<select id="cardSectionInput"></select></label>
+      <label>セクション<select id="cardSectionInput"></select></label>
       <label>ピン留め<select id="cardPinnedInput"><option value="false">しない</option><option value="true">する</option></select></label>
       <label class="full">タイトル<input id="cardTitleInput" placeholder="カードのタイトル"></label>
       <label class="full">内容<textarea id="cardContentInput" placeholder="メモや詳細"></textarea></label>
-      <label>今やることへの表示<select id="cardScheduleMode"><option value="none">設定しない</option><option value="period">期間中やる</option><option value="date">この日にやる</option></select></label>
+      <label>今やることへの表示<select id="cardScheduleMode"><option value="none">設定しない</option><option value="period">期間内に実行</option><option value="date">この日にやる</option></select></label>
       <label id="cardPlannedDateWrap" class="hidden">予定日<input id="cardPlannedDateInput" type="date"></label>
       <label id="cardStartDateWrap" class="hidden">期間開始日<input id="cardStartInput" type="date"></label>
-      <label>〆日・本当の期限<input id="cardDueInput" type="date"></label>
+      <label>期限<input id="cardDueInput" type="date"></label>
       <label>タグ<input id="cardTagsInput" placeholder="就活, 重要, 今日"></label>
       <label>色<select id="cardColorInput"><option value="yellow">黄色</option><option value="blue">青</option><option value="green">緑</option><option value="pink">ピンク</option><option value="purple">紫</option><option value="orange">オレンジ</option><option value="white">白</option></select></label>
       <label>画像<input id="cardImageInput" type="file" accept="image/*"></label>
@@ -486,7 +488,7 @@
 
   <div id="quickTaskModal" class="modal hidden"><div class="modal-backdrop" data-close="quickTaskModal"></div><div class="modal-card small-modal">
     <div class="modal-header"><h2>クイック追加</h2><button class="close-button" data-close="quickTaskModal">×</button></div>
-    <label>タスク名<input id="quickTaskTitle" placeholder="やること"></label><label>ボード<select id="quickTaskBoard"></select></label><label>小項目<select id="quickTaskSection"></select></label><label>着手可能日<input id="quickTaskStart" type="date"></label>
+    <label>タスク名<input id="quickTaskTitle" placeholder="やること"></label><label>ボード<select id="quickTaskBoard"></select></label><label>セクション<select id="quickTaskSection"></select></label><label>着手可能日<input id="quickTaskStart" type="date"></label>
       <label>期限<input id="quickTaskDue" type="date"></label>
     <div class="modal-actions"><button class="secondary-button" data-close="quickTaskModal">キャンセル</button><button id="saveQuickTaskButton" class="primary-button">追加</button></div>
   </div></div>
@@ -539,14 +541,14 @@
         </div>
         <label>カード密度<select id="densitySelect"><option value="normal">標準</option><option value="compact">コンパクト</option><option value="large">ゆったり</option></select></label>
         <label>文字サイズ<select id="fontSizeSelect"><option value="small">小</option><option value="medium" selected>中</option><option value="large">大</option></select></label>
-        <label class="switch-row"><span>DOPAの動きを許可</span><input id="dopaMotionToggle" type="checkbox" checked></label>
+        <label id="dopaMotionSetting" class="switch-row hidden"><span>DOPAの動きを許可</span><input id="dopaMotionToggle" type="checkbox" checked></label>
       </section>
-      <section class="settings-section"><h3>タブ</h3>
-        <label>タブ位置<select id="navPositionSelect"><option value="left">左</option><option value="right">右</option><option value="top">上</option><option value="bottom">下</option></select></label>
-        <label>タブサイズ<select id="tabSizeSelect"><option value="compact">コンパクト</option><option value="standard" selected>標準</option><option value="large">大きめ</option></select></label>
-        <label>タブ横幅<select id="tabWidthSelect"><option value="narrow">狭い</option><option value="standard" selected>標準</option><option value="wide">広い</option></select></label>
-        <p class="setting-note">PC版の配置と幅を調整できます。上・下ではタブの最小幅と左右余白に反映します。スマホは操作性優先の左ドロワー表示です。</p>
-        <label class="switch-row"><span>右下FABを表示</span><input id="quickAddVisibleToggle" type="checkbox" checked></label>
+      <section class="settings-section"><h3>ナビゲーション</h3>
+        <label>ナビゲーション位置<select id="navPositionSelect"><option value="left">左</option><option value="right">右</option><option value="top">上</option><option value="bottom">下</option></select></label>
+        <label>メニューサイズ<select id="tabSizeSelect"><option value="compact">コンパクト</option><option value="standard" selected>標準</option><option value="large">大きめ</option></select></label>
+        <label>メニュー幅<select id="tabWidthSelect"><option value="narrow">狭い</option><option value="standard" selected>標準</option><option value="wide">広い</option></select></label>
+        <p class="setting-note">PC版の配置と幅を調整できます。上・下ではメニューの最小幅と左右余白に反映します。スマホは操作性優先の左ドロワー表示です。</p>
+        <label class="switch-row"><span>右下の追加ボタンを表示</span><input id="quickAddVisibleToggle" type="checkbox" checked></label>
         <label>＋ボタン位置<select id="quickAddPositionSelect"><option value="auto">自動</option><option value="bottom-right">右下</option><option value="bottom-left">左下</option><option value="top-right">右上</option><option value="top-left">左上</option></select></label>
         <p class="setting-note">自動：左→右下 / 右→左下 / 上→右下 / 下→右上。非表示にしても各画面の追加ボタンは使えます。</p>
         <label>上部バー<select id="utilityBarModeSelect"><option value="always">常に表示</option><option value="desktop">PCのみ</option><option value="mobile">スマホのみ</option><option value="hidden">非表示</option></select></label>
@@ -556,17 +558,17 @@
           <label class="switch-row"><span>ヘルプ</span><input id="utilityHelpToggle" type="checkbox" checked></label>
           <label class="switch-row"><span>追加</span><input id="utilityAddToggle" type="checkbox" checked></label>
         </div>
-        <label class="switch-row"><span>タブ並び替えモード</span><input id="sidebarEditToggle" type="checkbox"></label>
+        <label class="switch-row"><span>メニュー並び替えモード</span><input id="sidebarEditToggle" type="checkbox"></label>
         <p class="setting-note">サイドバー上で直接ドラッグする場合に使います。設定一覧は専用ハンドルでいつでも並び替えできます。</p>
-        <div class="nav-visibility-box"><strong>タブ表示・並び順</strong><p class="setting-note">⋮⋮をドラッグ。OFFは「隠したタブ」へ移動し、小さな↑↓も補助操作として使えます。</p><div id="navVisibilityList" class="nav-visibility-list"></div></div>
-        <div class="settings-buttons"><button id="resetNavOrderButton" class="secondary-button">タブ順を初期化</button><button id="resetNavVisibilityButton" class="secondary-button">全部表示</button></div>
+        <div class="nav-visibility-box"><strong>メニューの表示・並び順</strong><p class="setting-note">⋮⋮をドラッグ。OFFは「隠したメニュー」へ移動し、小さな↑↓も補助操作として使えます。</p><div id="navVisibilityList" class="nav-visibility-list"></div></div>
+        <div class="settings-buttons"><button id="resetNavOrderButton" class="secondary-button">メニュー順を初期化</button><button id="resetNavVisibilityButton" class="secondary-button">全部表示</button></div>
       </section>
       <section class="settings-section"><h3>保存</h3>
-        <div class="storage-meter"><div class="storage-meter-head"><span>管理ンナーの保存サイズ</span><strong id="storageUsageLabel">計算中</strong></div><div class="linear-progress"><div id="storageUsageFill" class="linear-progress-fill"></div></div></div>
+        <div class="storage-meter"><div class="storage-meter-head"><span>TaskTuneの保存データ容量</span><strong id="storageUsageLabel">計算中</strong></div><div class="linear-progress"><div id="storageUsageFill" class="linear-progress-fill"></div></div></div>
         <p class="setting-note">ゴミ箱は自動削除せず手動管理。画像が多いほど容量を使います。</p>
-        <div class="settings-buttons"><button id="exportButton" class="secondary-button">バックアップ保存</button><button id="shareBackupButton" class="secondary-button">共有用バックアップ</button><label class="secondary-button file-label">読み込み<input id="importInput" type="file" accept=".json,application/json"></label></div>
+        <div class="settings-buttons"><button id="exportButton" class="secondary-button">バックアップ保存</button><button id="shareBackupButton" class="secondary-button">共有用バックアップ</button><label class="secondary-button file-label">読み込み<input id="importInput" type="file" accept=".json,application/json"></label><button id="resetDemoDataButton" class="secondary-button" type="button">デモデータに戻す</button></div>
       </section>
-      <section class="settings-section cloud-sync-section"><h3>クラウド同期</h3>
+      <section class="settings-section cloud-sync-section hidden" aria-hidden="true"><h3>クラウド同期</h3>
         <form id="cloudAuthForm" class="cloud-auth-form" autocomplete="on">
           <div class="cloud-auth-fields">
             <label>メールアドレス<input id="cloudEmailInput" name="task_kanrinner_auth_email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" placeholder="you@example.com"></label>
@@ -587,7 +589,7 @@
         <p class="setting-note">端末固有の画面・選択状態・見た目設定・最近の履歴は同期しません。クラウドから取得する前に、現在のローカルデータをJSONバックアップできます。</p>
         <p class="setting-note">Storage保存画像はJSONに参照情報だけが入り、画像本体は含まれません。既存のBase64画像は従来どおりJSONに含まれます。</p>
       </section>
-      <section class="settings-section"><h3>アプリ</h3><div class="settings-buttons"><button id="installAppButton" class="primary-button hidden">アプリとして追加</button><button id="restartTutorialButton" class="secondary-button" type="button">チュートリアルをもう一度見る</button><button id="restartGoalTutorialButton" class="secondary-button goal-tutorial-setting" type="button">目標設計チュートリアルをもう一度見る</button><button id="restartDopaTutorialButton" class="secondary-button dopa-tutorial-setting" type="button">DOPAチュートリアルをもう一度見る</button></div><p class="setting-note">データの正式な保存先は従来どおり端末内です。自動同期は端末ごとにONにでき、競合時は手動操作で解決します。</p></section>
+      <section class="settings-section"><h3>アプリ</h3><div class="settings-buttons"><button id="installAppButton" class="primary-button hidden">アプリとして追加</button><button id="restartTutorialButton" class="secondary-button" type="button">チュートリアルをもう一度見る</button><button id="restartGoalTutorialButton" class="secondary-button goal-tutorial-setting" type="button">目標設計チュートリアルをもう一度見る</button><button id="restartDopaTutorialButton" class="secondary-button dopa-tutorial-setting hidden" type="button">DOPAチュートリアルをもう一度見る</button></div><p class="setting-note">データはこの端末のブラウザ内に保存されます。必要に応じてJSONバックアップを保存してください。</p></section>
     </div>
     <button id="appVersionButton" class="app-version-button" type="button" aria-label="アプリバージョン 1.1.1">v1.1.1</button>
     <div class="modal-actions"><button class="primary-button" data-close="settingsModal">閉じる</button></div>
@@ -598,20 +600,18 @@
   <div id="tutorialModal" class="modal tutorial-modal hidden" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle"><div class="modal-backdrop"></div><div class="modal-card tutorial-card">
     <div class="tutorial-step-label" id="tutorialStepLabel">1 / 7</div>
     <div id="tutorialIcon" class="tutorial-icon" aria-hidden="true">✓</div>
-    <h2 id="tutorialTitle">タスク管理ンナーへようこそ</h2>
+    <h2 id="tutorialTitle">TaskTuneへようこそ</h2>
     <p id="tutorialBody"></p>
     <div class="tutorial-progress" id="tutorialProgress"></div>
     <div class="modal-actions tutorial-actions"><button id="tutorialSkipButton" class="text-button" type="button">スキップ</button><span class="modal-spacer"></span><button id="tutorialPrevButton" class="secondary-button" type="button">戻る</button><button id="tutorialNextButton" class="primary-button" type="button">次へ</button></div>
   </div></div>
-  <script src="supabase-config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="portfolio-config.js"></script>
   <script src="image-storage.js"></script>
   <script src="script.js"></script>
   <script src="tutorial-copy.js"></script>
   <script src="ux-v2.js"></script>
   <script src="phase2.js"></script>
   <script src="phase3.js"></script>
-  <script src="cloud-sync.js"></script>
   <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));}</script>
 </body>
 </html>

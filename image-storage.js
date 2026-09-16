@@ -8,7 +8,7 @@
   function isReference(value){return!!value&&typeof value==="object"&&value.type==="storage"&&value.bucket==="task-images"&&typeof value.path==="string"&&value.path.length>0}
   function key(value){return isReference(value)?`${value.bucket}:${value.path}`:""}
   function validateFile(file){if(!file||!SUPPORTED_TYPES.has(file.type))throw new Error("JPEG・PNG・WebP・GIF画像を選択してください。");return true}
-  function cloud(){return window.taskKanrinnerCloudSync}
+  function cloud(){return window.TASK_KANRINNER_PORTFOLIO_MODE?null:window.taskKanrinnerCloudSync}
   function canUpload(){return!!cloud()?.getStorageUserId?.()}
 
   async function upload(file,area,ownerId){

@@ -53,9 +53,9 @@
   function clearHistory(){undoStack.length=0;redoStack.length=0;clearLightUndo();updateHistoryButtons()}
   function wrapMutation(base,label,keys){
     return function(...args){
-      const before=snapshot(keys),result=base.apply(this,args);
-      if(result&&typeof result.then==="function")return result.then(value=>{pushHistory(label,keys,before);return value});
-      pushHistory(label,keys,before);return result
+      const before=snapshot(keys),resolvedLabel=typeof label==="function"?label():label,result=base.apply(this,args);
+      if(result&&typeof result.then==="function")return result.then(value=>{pushHistory(resolvedLabel,keys,before);return value});
+      pushHistory(resolvedLabel,keys,before);return result
     }
   }
 
@@ -116,7 +116,7 @@
   }
   window.toggleTaskSelected=toggleTaskSelection;
 
-  saveCard=wrapMutation(saveCard,"タスクを保存",TASK_KEYS);E.saveCardButton.onclick=saveCard;
+  saveCard=wrapMutation(saveCard,()=>E.cardTypeInput.value==="task"?"タスクを保存":"カードを保存",TASK_KEYS);E.saveCardButton.onclick=saveCard;
   quickTaskSave=wrapMutation(quickTaskSave,"タスクを追加",TASK_KEYS);E.saveQuickTaskButton.onclick=quickTaskSave;
   deleteCard=wrapMutation(deleteCard,"タスクを削除",TASK_DELETE_KEYS);
   completeCards=wrapMutation(completeCards,"タスクの完了状態を変更",TASK_COMPLETE_KEYS);
@@ -125,7 +125,7 @@
   window.restoreArchive=wrapMutation(window.restoreArchive,"タスクの完了を解除",TASK_COMPLETE_KEYS);
   window.toggleRoutineDone=wrapMutation(window.toggleRoutineDone,"ルーティンタスクの完了状態を変更",ROUTINE_KEYS);
   window.toggleRoutinePin=wrapMutation(window.toggleRoutinePin,"ルーティンタスクのピンを変更",ROUTINE_KEYS);
-  addBlock=wrapMutation(addBlock,"目標ブロックを追加",GOAL_KEYS);E.addBlockButton.onclick=addBlock;
+  addBlock=wrapMutation(addBlock,()=>data.settings.theme==="dopaboy"?"目標ブロックを追加":"目標ステップを追加",GOAL_KEYS);E.addBlockButton.onclick=addBlock;
 
   const baseRenderCard=renderCard;
   renderCard=function(card,sectionId){
@@ -144,10 +144,10 @@
   };
   const baseRenderBlock=renderBlock;
   renderBlock=function(goalValue,block,index){
-    const row=baseRenderBlock(goalValue,block,index),wrap=action=>event=>{const before=snapshot(GOAL_KEYS);action.call(event.currentTarget,event);pushHistory("目標ブロックを変更",GOAL_KEYS,before)};
+    const row=baseRenderBlock(goalValue,block,index),wrap=action=>event=>{const before=snapshot(GOAL_KEYS);action.call(event.currentTarget,event);pushHistory(data.settings.theme==="dopaboy"?"目標ブロックを変更":"目標ステップを変更",GOAL_KEYS,before)};
     const breaker=row.querySelector(".break-block-button"),actions=row.querySelectorAll(".builder-block-actions button");
     if(breaker)breaker.onclick=wrap(breaker.onclick);actions.forEach(button=>button.onclick=wrap(button.onclick));
-    const drop=row.ondrop;row.ondrop=event=>{const before=snapshot(GOAL_KEYS);drop.call(row,event);pushHistory("目標ブロックを並び替え",GOAL_KEYS,before)};
+    const drop=row.ondrop;row.ondrop=event=>{const before=snapshot(GOAL_KEYS);drop.call(row,event);pushHistory(data.settings.theme==="dopaboy"?"目標ブロックを並び替え":"目標ステップを並び替え",GOAL_KEYS,before)};
     return row
   };
   const baseFreeRecord=freeRecord;

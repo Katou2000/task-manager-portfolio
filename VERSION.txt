@@ -1,3 +1,3 @@
-Task Kanrinner
+TaskTune
 Version: 1.1.1
-Release: safe automatic Supabase sync
+Release: public portfolio demo

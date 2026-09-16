@@ -1,6 +1,7 @@
 "use strict";
 
 (()=>{
+  if(window.TASK_KANRINNER_PORTFOLIO_MODE)return;
   const META_KEY="taskKanrinnerCloudMetaV1",AUTO_KEY="taskKanrinnerAutoSyncV1";
   const DEBOUNCE_MS=1800,POLL_MS=45000,REQUEST_TIMEOUT_MS=15000,CHECK_THROTTLE_MS=5000,SIZE_WARNING_BYTES=3*1024*1024,IMAGE_BUCKET="task-images";
   const IMAGE_TYPES={"image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/gif":"gif"};

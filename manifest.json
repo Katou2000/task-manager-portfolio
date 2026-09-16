@@ -1,6 +1,6 @@
 {
-  "name": "タスク管理ンナー",
-  "short_name": "管理ンナー",
+  "name": "TaskTune",
+  "short_name": "TaskTune",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f4f6f8",

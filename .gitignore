@@ -1,0 +1,28 @@
+# Environment and local credentials
+.env
+.env.*
+!.env.example
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Local task data and backups
+task-kanrinner-*.json
+*backup*.json
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+
+# Local development output
+node_modules/
+dist/
+coverage/
