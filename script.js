@@ -1,5 +1,5 @@
 "use strict";
-const STORAGE_KEY="taskKanrinnerV1", SCHEMA=10;
+const STORAGE_KEY="taskTunePortfolioV1", SCHEMA=10;
 const DEFAULT_NAV=["home","calendar","boards","routine","builder","freeboard","memo","shortcuts","archive","achievedGoals","templates","trash"];
 const $=id=>document.getElementById(id), qa=s=>[...document.querySelectorAll(s)];
 const E={};
